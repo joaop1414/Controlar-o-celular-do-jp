@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interagir com o celular do jp </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            margin: 10px 0;
+        }
+        .hidden {
+            display: none;
+        }
+        .slider-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .slider-value {
+            margin-left: 10px;
+            font-size: 16px;
+        }
+        .modal {
+            padding: 20px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        function handleFalarClick() {
+            const userInput = prompt("O que você quer falar?");
+            if (userInput !== null && userInput.trim() !== "") {
+                const url = `https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/falar?falar=${encodeURIComponent(userInput)}`;
+                window.location.href = url;
+            }
+        }
+
+        function showBrilhoSlider() {
+            document.getElementById('brilho-slider-container').classList.remove('hidden');
+        }
+
+        function handleBrilhoSubmit() {
+            const brilhoValue = document.getElementById('brilho-slider').value;
+            const url = `https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/Brilho?brilho=${encodeURIComponent(brilhoValue)}`;
+            window.location.href = url;
+        }
+
+        function updateSliderValue() {
+            const brilhoValue = document.getElementById('brilho-slider').value;
+            document.getElementById('brilho-value').innerText = `${brilhoValue}%`;
+        }
+
+        function showVolumeSlider() {
+            document.getElementById('volume-slider-container').classList.remove('hidden');
+        }
+
+        function handleVolumeSubmit() {
+            const volumeValue = document.getElementById('volume-slider').value;
+            const url = `https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/volume?volume=${encodeURIComponent(volumeValue)}`;
+            window.location.href = url;
+        }
+
+        function updateVolumeValue() {
+            const volumeValue = document.getElementById('volume-slider').value;
+            document.getElementById('volume-value').innerText = `${volumeValue}%`;
+        }
+
+        function showTelaOptions() {
+            document.getElementById('tela-options').classList.remove('hidden');
+        }
+
+        function handleDesligarTela() {
+            window.location.href = 'https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/desligar tela';
+        }
+
+        function handleLigarTela() {
+            window.location.href = 'https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/ligar tela';
+        }
+
+        function showAppInteractionOptions() {
+            document.getElementById('app-interaction-options').classList.remove('hidden');
+        }
+
+        function handleAppInteraction(action) {
+            const url = `https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/sair app?AcaoSair=${encodeURIComponent(action)}`;
+            window.location.href = url;
+        }
+
+        function handleFlashbangClick() {
+            window.location.href = 'https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/flashbank';
+        }
+
+        function handleAbrirAppClick() {
+            const pacoteApp = prompt("Nome do pacote do app:");
+            if (pacoteApp !== null && pacoteApp.trim() !== "") {
+                const url = `https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/abrir app?app=${encodeURIComponent(pacoteApp)}`;
+                window.location.href = url;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <button class="button" onclick="handleFalarClick()">Falar</button>
+        <button class="button" onclick="showBrilhoSlider()">Brilho</button>
+        <button class="button" onclick="showVolumeSlider()">Volume</button>
+        <button class="button" onclick="showTelaOptions()">Tela</button>
+        <button class="button" onclick="showAppInteractionOptions()">Interação com o App</button>
+        <button class="button" onclick="handleFlashbangClick()">Flashbang</button>
+        <button class="button" onclick="handleAbrirAppClick()">Abrir App</button>
+
+        <div id="brilho-slider-container" class="hidden">
+            <div class="slider-container">
+                <input type="range" id="brilho-slider" min="0" max="100" value="50" oninput="updateSliderValue()">
+                <span id="brilho-value" class="slider-value">50%</span>
+            </div>
+            <button class="button" onclick="handleBrilhoSubmit()">Enviar</button>
+        </div>
+
+        <div id="volume-slider-container" class="hidden">
+            <div class="slider-container">
+                <input type="range" id="volume-slider" min="0" max="100" value="50" oninput="updateVolumeValue()">
+                <span id="volume-value" class="slider-value">50%</span>
+            </div>
+            <button class="button" onclick="handleVolumeSubmit()">Enviar</button>
+        </div>
+
+        <div id="tela-options" class="hidden modal">
+            <p>Escolha uma opção:</p>
+            <div class="button-container">
+                <button class="button" onclick="handleDesligarTela()">Desligar</button>
+                <button class="button" onclick="handleLigarTela()">Ligar</button>
+            </div>
+        </div>
+
+        <div id="app-interaction-options" class="hidden modal">
+            <p>Escolha uma ação:</p>
+            <div class="button-container">
+                <button class="button" onclick="handleAppInteraction('<')"><</button>
+                <button class="button" onclick="handleAppInteraction('○')">○</button>
+                <button class="button" onclick="handleAppInteraction('|||')">|||</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
