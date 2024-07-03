@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interagir com o celular do jp </title>
+    <title>Celular do JP</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,16 +11,17 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f8f9fa;
+            background-color: #343a40;
             margin: 0;
+            color: white;
         }
         .container {
             text-align: center;
-            background-color: white;
+            background-color: #495057;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            width: 350px;
         }
         .button {
             display: block;
@@ -36,6 +37,10 @@
             cursor: pointer;
             text-decoration: none;
             margin: 10px 0;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #0056b3;
         }
         .hidden {
             display: none;
@@ -52,7 +57,7 @@
         }
         .modal {
             padding: 20px;
-            background-color: #f0f0f0;
+            background-color: #6c757d;
             border: 1px solid #ccc;
             border-radius: 5px;
             margin-top: 10px;
@@ -135,10 +140,15 @@
                 window.location.href = url;
             }
         }
+
+        function handleVibrarClick() {
+            window.location.href = 'https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/vibrar';
+        }
     </script>
 </head>
 <body>
     <div class="container">
+        <h1>Celular do JP</h1>
         <button class="button" onclick="handleFalarClick()">Falar</button>
         <button class="button" onclick="showBrilhoSlider()">Brilho</button>
         <button class="button" onclick="showVolumeSlider()">Volume</button>
@@ -146,6 +156,7 @@
         <button class="button" onclick="showAppInteractionOptions()">Interação com o App</button>
         <button class="button" onclick="handleFlashbangClick()">Flashbang</button>
         <button class="button" onclick="handleAbrirAppClick()">Abrir App</button>
+        <button class="button" onclick="handleVibrarClick()">Vibrar</button>
 
         <div id="brilho-slider-container" class="hidden">
             <div class="slider-container">
