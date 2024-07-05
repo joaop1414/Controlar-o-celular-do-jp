@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,39 +8,27 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
-            background-color: #343a40;
             margin: 0;
-            color: white;
-        }
-        .container {
-            text-align: center;
-            background-color: #495057;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-            width: 350px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            margin-bottom: 20px;
         }
         .button {
             display: block;
-            width: 100%;
-            padding: 10px;
+            margin: 10px;
+            padding: 10px 20px;
             font-size: 16px;
-            font-weight: bold;
-            text-align: center;
+            cursor: pointer;
+            background-color: #007bff;
             color: white;
-            background-color: #007BFF;
             border: none;
             border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            margin: 10px 0;
-            transition: background-color 0.3s;
-        }
-        .button:hover {
-            background-color: #0056b3;
+            text-align: center;
+            width: 200px;
         }
         .hidden {
             display: none;
@@ -48,148 +36,172 @@
         .slider-container {
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin: 10px 0;
-        }
-        .slider-value {
-            margin-left: 10px;
-            font-size: 16px;
-        }
-        .modal {
-            padding: 20px;
-            background-color: #6c757d;
-            border: 1px solid #ccc;
-            border-radius: 5px;
             margin-top: 10px;
+        }
+        .slider-container input {
+            margin-right: 10px;
         }
         .button-container {
             display: flex;
             gap: 10px;
-            justify-content: center;
             margin-top: 10px;
         }
+        .video-container {
+            width: 100%;
+            max-width: 560px;
+            height: 315px;
+            margin-top: 20px;
+        }
     </style>
+</head>
+<body>
+    <h1>Celular do JP</h1>
+    <button class="button" onclick="handleFalar()">Falar</button>
+    <button class="button" onclick="handleBrilho()">Brilho</button>
+    <button class="button" onclick="handleVolume()">Volume</button>
+    <button class="button" onclick="handleTela()">Tela</button>
+    <button class="button" onclick="handleAppInteraction()">Interação com o App</button>
+    <button class="button" onclick="handleFlashbang()">Flashbang</button>
+    <button class="button" onclick="handleAbrirApp()">Abrir App</button>
+    <button class="button" onclick="handleVibrar()">Vibrar</button>
+    <button class="button" onclick="handleLive()">Ver Live do JP por Aqui</button>
+    <button class="button" onclick="handleMensagem()">Mensagem</button>
+    
+    <div id="falar-container" class="hidden">
+        <input type="text" id="falar-input" placeholder="O que é para falar?">
+        <button class="button" onclick="submitFalar()">Enviar</button>
+    </div>
+    
+    <div id="brilho-container" class="hidden">
+        <div class="slider-container">
+            <input type="range" id="brilho-slider" min="0" max="100" value="50" oninput="updateBrilhoValue()">
+            <span id="brilho-value">50%</span>
+        </div>
+        <button class="button" onclick="submitBrilho()">Enviar</button>
+    </div>
+    
+    <div id="volume-container" class="hidden">
+        <div class="slider-container">
+            <input type="range" id="volume-slider" min="0" max="100" value="50" oninput="updateVolumeValue()">
+            <span id="volume-value">50%</span>
+        </div>
+        <button class="button" onclick="submitVolume()">Enviar</button>
+    </div>
+    
+    <div id="tela-container" class="hidden">
+        <button class="button" onclick="submitDesligarTela()">Desligar</button>
+        <button class="button" onclick="submitLigarTela()">Ligar</button>
+    </div>
+    
+    <div id="app-container" class="hidden">
+        <div class="button-container">
+            <button class="button" onclick="submitAppInteraction('<')"><</button>
+            <button class="button" onclick="submitAppInteraction('○')">○</button>
+            <button class="button" onclick="submitAppInteraction('|||')">|||</button>
+        </div>
+    </div>
+    
+    <div id="abrir-app-container" class="hidden">
+        <input type="text" id="abrir-app-input" placeholder="Nome do pacote do app">
+        <button class="button" onclick="submitAbrirApp()">Enviar</button>
+    </div>
+    
+    <div id="live-video" class="hidden video-container">
+        <iframe id="live-frame" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+    </div>
+    
     <script>
-        function handleFalarClick() {
-            const userInput = prompt("O que você quer falar?");
-            if (userInput !== null && userInput.trim() !== "") {
-                const url = `https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/falar?falar=${encodeURIComponent(userInput)}`;
-                window.location.href = url;
-            }
+        function handleFalar() {
+            document.getElementById('falar-container').classList.toggle('hidden');
         }
 
-        function showBrilhoSlider() {
-            document.getElementById('brilho-slider-container').classList.remove('hidden');
+        function submitFalar() {
+            const falar = document.getElementById('falar-input').value;
+            window.location.href = `https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/falar?falar=${falar}`;
         }
 
-        function handleBrilhoSubmit() {
-            const brilhoValue = document.getElementById('brilho-slider').value;
-            const url = `https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/Brilho?brilho=${encodeURIComponent(brilhoValue)}`;
-            window.location.href = url;
+        function handleBrilho() {
+            document.getElementById('brilho-container').classList.toggle('hidden');
         }
 
-        function updateSliderValue() {
-            const brilhoValue = document.getElementById('brilho-slider').value;
-            document.getElementById('brilho-value').innerText = `${brilhoValue}%`;
+        function updateBrilhoValue() {
+            const value = document.getElementById('brilho-slider').value;
+            document.getElementById('brilho-value').innerText = `${value}%`;
         }
 
-        function showVolumeSlider() {
-            document.getElementById('volume-slider-container').classList.remove('hidden');
+        function submitBrilho() {
+            const brilho = document.getElementById('brilho-slider').value;
+            window.location.href = `https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/Brilho?brilho=${brilho}`;
         }
 
-        function handleVolumeSubmit() {
-            const volumeValue = document.getElementById('volume-slider').value;
-            const url = `https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/volume?volume=${encodeURIComponent(volumeValue)}`;
-            window.location.href = url;
+        function handleVolume() {
+            document.getElementById('volume-container').classList.toggle('hidden');
         }
 
         function updateVolumeValue() {
-            const volumeValue = document.getElementById('volume-slider').value;
-            document.getElementById('volume-value').innerText = `${volumeValue}%`;
+            const value = document.getElementById('volume-slider').value;
+            document.getElementById('volume-value').innerText = `${value}%`;
         }
 
-        function showTelaOptions() {
-            document.getElementById('tela-options').classList.remove('hidden');
+        function submitVolume() {
+            const volume = document.getElementById('volume-slider').value;
+            window.location.href = `https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/volume?volume=${volume}`;
         }
 
-        function handleDesligarTela() {
+        function handleTela() {
+            document.getElementById('tela-container').classList.toggle('hidden');
+        }
+
+        function submitDesligarTela() {
             window.location.href = 'https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/desligar tela';
         }
 
-        function handleLigarTela() {
+        function submitLigarTela() {
             window.location.href = 'https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/ligar tela';
         }
 
-        function showAppInteractionOptions() {
-            document.getElementById('app-interaction-options').classList.remove('hidden');
+        function handleAppInteraction() {
+            document.getElementById('app-container').classList.toggle('hidden');
         }
 
-        function handleAppInteraction(action) {
-            const url = `https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/sair app?AcaoSair=${encodeURIComponent(action)}`;
-            window.location.href = url;
+        function submitAppInteraction(action) {
+            window.location.href = `https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/sair app?AcaoSair=${action}`;
         }
 
-        function handleFlashbangClick() {
+        function handleFlashbang() {
             window.location.href = 'https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/flashbank';
         }
 
-        function handleAbrirAppClick() {
-            const pacoteApp = prompt("Nome do pacote do app:");
-            if (pacoteApp !== null && pacoteApp.trim() !== "") {
-                const url = `https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/abrir app?app=${encodeURIComponent(pacoteApp)}`;
-                window.location.href = url;
-            }
+        function handleAbrirApp() {
+            document.getElementById('abrir-app-container').classList.toggle('hidden');
         }
 
-        function handleVibrarClick() {
+        function submitAbrirApp() {
+            const app = document.getElementById('abrir-app-input').value;
+            window.location.href = `https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/abrir app?app=${app}`;
+        }
+
+        function handleVibrar() {
             window.location.href = 'https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/vibrar';
         }
+
+        function handleLive() {
+            const liveVideoContainer = document.getElementById('live-video');
+            const iframe = document.getElementById('live-frame');
+            iframe.src = 'https://www.youtube.com/embed/live_stream?channel=UC1in2u2A4GhzOR2InqlLkOQ';
+            liveVideoContainer.classList.toggle('hidden');
+        }
+
+        function handleMensagem() {
+            document.getElementById('falar-container').classList.toggle('hidden');
+            document.getElementById('falar-input').placeholder = "Mensagem";
+            document.getElementById('falar-container').querySelector('button').onclick = submitMensagem;
+        }
+
+        function submitMensagem() {
+            const mensagem = document.getElementById('falar-input').value;
+            window.location.href = `https://trigger.macrodroid.com/056ccb2c-97a0-4b8e-a7b6-cb00948c8e6f/mensagem?falar=${mensagem}`;
+        }
     </script>
-</head>
-<body>
-    <div class="container">
-        <h1>Celular do JP</h1>
-        <button class="button" onclick="handleFalarClick()">Falar</button>
-        <button class="button" onclick="showBrilhoSlider()">Brilho</button>
-        <button class="button" onclick="showVolumeSlider()">Volume</button>
-        <button class="button" onclick="showTelaOptions()">Tela</button>
-        <button class="button" onclick="showAppInteractionOptions()">Interação com o App</button>
-        <button class="button" onclick="handleFlashbangClick()">Flashbang</button>
-        <button class="button" onclick="handleAbrirAppClick()">Abrir App</button>
-        <button class="button" onclick="handleVibrarClick()">Vibrar</button>
-
-        <div id="brilho-slider-container" class="hidden">
-            <div class="slider-container">
-                <input type="range" id="brilho-slider" min="0" max="100" value="50" oninput="updateSliderValue()">
-                <span id="brilho-value" class="slider-value">50%</span>
-            </div>
-            <button class="button" onclick="handleBrilhoSubmit()">Enviar</button>
-        </div>
-
-        <div id="volume-slider-container" class="hidden">
-            <div class="slider-container">
-                <input type="range" id="volume-slider" min="0" max="100" value="50" oninput="updateVolumeValue()">
-                <span id="volume-value" class="slider-value">50%</span>
-            </div>
-            <button class="button" onclick="handleVolumeSubmit()">Enviar</button>
-        </div>
-
-        <div id="tela-options" class="hidden modal">
-            <p>Escolha uma opção:</p>
-            <div class="button-container">
-                <button class="button" onclick="handleDesligarTela()">Desligar</button>
-                <button class="button" onclick="handleLigarTela()">Ligar</button>
-            </div>
-        </div>
-
-        <div id="app-interaction-options" class="hidden modal">
-            <p>Escolha uma ação:</p>
-            <div class="button-container">
-                <button class="button" onclick="handleAppInteraction('<')"><</button>
-                <button class="button" onclick="handleAppInteraction('○')">○</button>
-                <button class="button" onclick="handleAppInteraction('|||')">|||</button>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
